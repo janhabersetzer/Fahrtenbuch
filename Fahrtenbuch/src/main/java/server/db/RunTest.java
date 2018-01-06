@@ -3,6 +3,8 @@ package server.db;
 import java.sql.*;
 import java.util.ArrayList;
 
+import shared.bo.Fahrer;
+
 
 
 
@@ -10,7 +12,27 @@ public class RunTest {
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		get();
+		testFahrerMapper();
+	}
+	
+	
+	public static  void testFahrerMapper() throws Exception{
+		
+		//Fahrer- Objekt erzeugen und Atrribute deklarieren
+		Fahrer d= new Fahrer();
+		d.setVorname("Juli");
+		d.setNachname("Bert");
+		d.setSteuerNr("111111111");
+		d.setId(1);
+		
+		//FahrerMapper intanzieren
+		
+		FahrerMapper dm = FahrerMapper.fahrerMapper();
+		
+		//Objekt in DB speichern
+		dm.insert(d);
+		
+		
 	}
 	
 	public static ArrayList<String> get() throws Exception{
@@ -31,15 +53,7 @@ public class RunTest {
 			 }
 			System.out.println("All records have been seleced");
 			return array;
-			
-			 
-			// 2. Create a statement
-			// Statement testStmt = testCon.createStatement();
-			// 3. Execute SQL Statement
-			// ResultSet testSet = testStmt.executeQuery("select* from Fahrer");
-			// 4. Process Relsut set
-			// while(testSet.next()){
-			// System.out.println(testSet.getString("Vorname")+","+ testSet.getString("Nachname") +","+ testSet.getString("Steurnummer"));
+
 			}
 		catch(Exception e){
 			System.out.print("Fuck...went wrong");
