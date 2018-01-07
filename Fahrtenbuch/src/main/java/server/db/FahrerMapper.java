@@ -1,6 +1,8 @@
 package server.db;
 
+import java.lang.reflect.Executable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -40,29 +42,28 @@ public class FahrerMapper {
 	 */
 	
 	public Fahrer findByKey(int id){
-		// DBConnetion aufbauen
-		Connection con = DBConnection.connection();
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		String selectByKey = "SELECT * FROM Fahrer WHERE idFahrer= ? ORDER BY idFahrer";
 		
 		try {
-		      // Leeres SQL-Statement (JDBC) anlegen
-		      Statement stmt = con.createStatement();
-
-		      // Statement ausfüllen und als Query an die DB schicken
-		      ResultSet rs = stmt.executeQuery("SELECT * FROM Fahrer"
-		          + "WHERE id=" + id + " ORDER BY Nachname");
-
-		      /*
-		       * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-		       * werden. Prüfe, ob ein Ergebnis vorliegt.
-		       */
-		      if (rs.next()) {
-		        // Ergebnis-Tupel in Objekt umwandeln
-		        Fahrer d = new Fahrer();
-		        // Setzen der Attribute entspechenden des DB-Datensatzes
-		        d.setVorname(rs.getString("Vorname"));
-		        d.setNachname(rs.getString("Nachname"));
-		        d.setSteuerNr(rs.getString("Steuernummer"));
-		        return d;
+		     con= DBConnection.connection();
+		     stmt = con.prepareStatement(selectByKey);
+		     stmt.setInt(1, id);
+		     
+		     // execute SQL Statement
+		     ResultSet rs = stmt.executeQuery();	 
+		    		 
+		     if (rs.next()) {
+		       // Ergebnis-Tupel in Objekt umwandeln
+		       Fahrer d = new Fahrer();
+		       // Setzen der Attribute entspechenden des DB-Datensatzes
+		       d.setId(rs.getInt("idFahrer"));
+		       d.setVorname(rs.getString("Vorname"));
+		       d.setNachname(rs.getString("Nachname"));
+		       d.setSteuerNr(rs.getString("Steuernummer"));
+		       return d;
 		      }
 		    }
 		    catch (SQLException e2) {
@@ -74,19 +75,24 @@ public class FahrerMapper {
 	}
 	
 	public Vector<Fahrer> findAll(){
-		Connection con = DBConnection.connection();
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		String selectAll = "SELECT * FROM Fahrer ORDER by idFahrer";
 		
 		//Vector erzeugen, der alle Fahrer-Datensätze aufnehmen kann
 		Vector<Fahrer> result = new Vector<Fahrer>();
 		
 		try{
-			// Leeres SQL-Statement (JDBC) anlegen
-			Statement stmt = con.createStatement();
+			// Verbindung und Abfrage
+			con = DBConnection.connection(); 
+			stmt = con.prepareStatement(selectAll);
 			
-			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Fahrer"+"ORDER by idFahrer");
+			// SELECT Statement ausführen und in ResultSet einfügen
+			ResultSet rs = stmt.executeQuery();
 			
 			// while Schleife, weil hier Viele Zeilen durchaufen werden müssen
+			// schreiben der Objekt-Atrribute aus ResultSet
 			while(rs.next()){
 				Fahrer d = new Fahrer();
 				d.setId(rs.getInt("idFahrer"));
@@ -109,14 +115,21 @@ public class FahrerMapper {
 	 */
 	
 	public Fahrer insert(Fahrer d){
-		Connection con = DBConnection.connection();
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		//Query für Abfrage der hoechsten ID (Primärschlüssel) in der Datenbank
+		String maxid = "SELECT MAX(idFahrer) AS maxid" + "FROM Fahrer";
+		
+		//Query fuer eigentlichen Insert
+		String insertSQL = "INSERT INTO Fahrer (Vorname,Nachname,Steuernummer) VALUES ('?', '?', '?')";
 		
 		try{
-			Statement stmt = con.createStatement();
+			con = DBConnection.connection();
+			stmt = con.prepareStatement(maxid);
 			
-			//Zunächst wird die höchste ID (Primärschlüssel) in der Datenbank abgefragt...
-			ResultSet rs = stmt.executeQuery("SELECT MAX(idFahrer) AS maxid"
-	          + "FROM Fahrer ");
+			//maxid-Query ausführen
+			ResultSet rs = stmt.executeQuery();
 			
 			// ....um diese dann um 1 inkrementiert der id des BO zuzuweisen.
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein --> if-Bedingung
@@ -124,13 +137,18 @@ public class FahrerMapper {
 				d.setId(rs.getInt("maxid")+1);
 			}
 			
-			stmt = con.createStatement();
+			// Jetzt erfolgt der INSERT. 
+			stmt = con.prepareStatement(insertSQL);
+			stmt.setString(1, d.getVorname());
+			stmt.setString(2, d.getNachname());
+			stmt.setString(3, d.getSteuerNr());
 			
-			// Jetzt erfolgt der INSERT die ID wird jedoch nicht wie beim Bankprojekt eingefügt, 
-			// sondern wird durch die Autoinkrement-Einstellung der Datenbank vorgenommen.
-			stmt.executeUpdate("INSERT INTO Fahrer (Vorname, Nachname, SteuerNr) " + "VALUES ("+ 
-					 d.getVorname() + "," + d.getNachname() + "," + d.getSteuerNr() + ")");
-			
+			//INSERT-Query ausführen
+			stmt.executeQuery();
+	
+										//stmt.executeUpdate("INSERT INTO Fahrer (Vorname,Nachname,Steuernummer) " + "VALUES ("+ 
+											//	 d.getVorname() + "," + d.getNachname() + "," + d.getSteuerNr() + ")");
+										
 	
 		}catch(SQLException e2){
 			e2.printStackTrace();
