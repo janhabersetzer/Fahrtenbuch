@@ -10,9 +10,12 @@ import shared.bo.Fahrer;
 public class RunTest {
 
 	public static void main(String[] args) throws Exception {
+		
 		// TODO Auto-generated method stub
 		
+		testUpdate();
 		testInsert();
+		
 	}
 	
 	
@@ -59,16 +62,54 @@ public static  void testFindAll() throws Exception{
 				d.setVorname("Peter");
 				d.setNachname("Lustig");
 				d.setSteuerNr("44444444");
-		
+		try{
 		//FahrerMapper intanzieren
 		FahrerMapper dm = FahrerMapper.fahrerMapper();
 		
 		//in DB schreiben
 		dm.insert(d);
+		System.out.println(d.getId()+"Erfolgreicher Insert");
 		
+		}catch(Exception e){
+			System.out.println("So ein Sch...");
+		}
 	
 	}
 	
+public static  void testUpdate() throws Exception{
+		
+		//Objekt anlegen
+				Fahrer d= new Fahrer();
+				d.setId(2);
+				d.setVorname("Peter");
+				d.setNachname("Lustig");
+				d.setSteuerNr("44444444");
+		try{
+		//FahrerMapper intanzieren
+		FahrerMapper dm = FahrerMapper.fahrerMapper();
+		
+		//in DB schreiben
+		dm.update(d);
+		System.out.println(d.getId()+"Erfolgreiches Update");
+		
+		}catch(Exception e){
+			System.out.println("So ein Sch...");
+		}
+	
+	}
+	
+	
+	public static  void testDelete() throws Exception{
+		FahrerMapper dm = FahrerMapper.fahrerMapper();
+		
+		
+		Fahrer d= new Fahrer();
+		d.setId(2);
+		
+		
+		dm.delete(d);
+		System.out.println("Erfolgreich gelöscht");
+	}
 	
 	
 	public static ArrayList<String> get() throws Exception{

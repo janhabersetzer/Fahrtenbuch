@@ -115,18 +115,19 @@ public class FahrerMapper {
 	 */
 	
 	public Fahrer insert(Fahrer d){
+	
 		Connection con = null;
 		PreparedStatement stmt = null;
 		
 		//Query für Abfrage der hoechsten ID (Primärschlüssel) in der Datenbank
-		String maxid = "SELECT MAX(idFahrer) AS maxid" + "FROM Fahrer";
+		String maxIdSQL = "SELECT MAX(idFahrer) AS maxId FROM Fahrer";
 		
 		//Query fuer eigentlichen Insert
-		String insertSQL = "INSERT INTO Fahrer (Vorname,Nachname,Steuernummer) VALUES ('?', '?', '?')";
+		String insertSQL = "INSERT INTO Fahrer(idFahrer,Vorname,Nachname,Steuernummer) VALUES (?,?,?,?)";
 		
 		try{
 			con = DBConnection.connection();
-			stmt = con.prepareStatement(maxid);
+			stmt = con.prepareStatement(maxIdSQL);
 			
 			//maxid-Query ausführen
 			ResultSet rs = stmt.executeQuery();
@@ -134,22 +135,18 @@ public class FahrerMapper {
 			// ....um diese dann um 1 inkrementiert der id des BO zuzuweisen.
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein --> if-Bedingung
 			if(rs.next()){
-				d.setId(rs.getInt("maxid")+1);
+				d.setId(rs.getInt("maxId")+1);
 			}
 			
 			// Jetzt erfolgt der INSERT. 
 			stmt = con.prepareStatement(insertSQL);
-			stmt.setString(1, d.getVorname());
-			stmt.setString(2, d.getNachname());
-			stmt.setString(3, d.getSteuerNr());
+			stmt.setInt(1, d.getId());
+			stmt.setString(2, d.getVorname());
+			stmt.setString(3, d.getNachname());
+			stmt.setString(4, d.getSteuerNr());
 			
 			//INSERT-Query ausführen
-			stmt.executeQuery();
-	
-										//stmt.executeUpdate("INSERT INTO Fahrer (Vorname,Nachname,Steuernummer) " + "VALUES ("+ 
-											//	 d.getVorname() + "," + d.getNachname() + "," + d.getSteuerNr() + ")");
-										
-	
+			stmt.executeUpdate(insertSQL);
 		}catch(SQLException e2){
 			e2.printStackTrace();
 			}
@@ -163,15 +160,19 @@ public class FahrerMapper {
 	 */
 	
 	public Fahrer update(Fahrer d){
-		Connection con = DBConnection.connection();
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		String updateSQL = "UPDATE Fahrer SET Vorname= ?,Nachname=?,Steuernummer=? WHERE idFahrer=?";
 		
 		try{
-			Statement stmt = con.createStatement();
-			
-			// UPDATE aller Tupel Attribute entsprechend der Objekt Attribute
-			stmt.executeUpdate("UPDATE Fahrer " + "SET Vorname= \"" + d.getVorname()
-	          + "\","+ "\""+d.getNachname()+"\","+"\""+d.getSteuerNr()+"\""+ "WHERE idFahrer="+ d.getId());
-			
+			con=DBConnection.connection();
+			stmt = con.prepareStatement(updateSQL);
+			stmt.setString(1, d.getVorname());
+			stmt.setString(2, d.getNachname());
+			stmt.setString(3, d.getSteuerNr());
+			stmt.setInt(4, d.getId());
+			stmt.executeUpdate();
 			
 		}catch(SQLException e2){
 			e2.printStackTrace();
@@ -187,12 +188,18 @@ public class FahrerMapper {
 	 */
 	
 	public void delete(Fahrer d){
-		Connection con = DBConnection.connection();
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		String deleteSQL= "DELETE FROM Fahrer WHERE idFahrer=?";
 		
 		try{
-			Statement stmt = con.createStatement();
+			con = DBConnection.connection();
 			
-			stmt.executeUpdate("DELETE FROM Fahrer"+ "WHERE idFahrer="+ d.getId());
+			stmt = con.prepareStatement(deleteSQL);
+			stmt.setInt(1, d.getId());
+			
+			stmt.executeUpdate();
 			
 		}catch(SQLException e2){
 			e2.printStackTrace();
