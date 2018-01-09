@@ -140,13 +140,17 @@ public class FahrerMapper {
 			
 			// Jetzt erfolgt der INSERT. 
 			stmt = con.prepareStatement(insertSQL);
+			
+			//Setzten der ? Platzhalter als "VALUES"
 			stmt.setInt(1, d.getId());
 			stmt.setString(2, d.getVorname());
 			stmt.setString(3, d.getNachname());
 			stmt.setString(4, d.getSteuerNr());
 			
+			
 			//INSERT-Query ausführen
-			stmt.executeUpdate(insertSQL);
+			stmt.executeUpdate();
+			
 		}catch(SQLException e2){
 			e2.printStackTrace();
 			}

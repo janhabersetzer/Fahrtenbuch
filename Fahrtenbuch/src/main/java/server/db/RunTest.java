@@ -13,8 +13,9 @@ public class RunTest {
 		
 		// TODO Auto-generated method stub
 		
-		testUpdate();
+		testFindAll();
 		testInsert();
+		testFindAll();
 		
 	}
 	
@@ -46,11 +47,7 @@ public static  void testFindAll() throws Exception{
 		Vector <Fahrer> dv = dm.findAll();
 		
 		for (Enumeration<Fahrer> e = dv.elements(); e.hasMoreElements();){
-			Fahrer d = new Fahrer();
-			System.out.println("idFahrer: "+d.getId());
-			System.out.println("Vorname: "+d.getVorname());
-			System.out.println("Nachname: "+d.getNachname());
-			System.out.println("Steuernummer: "+d.getSteuerNr());
+			 System.out.print(e.nextElement() + " ");
 		}
 		
 		
@@ -59,9 +56,10 @@ public static  void testFindAll() throws Exception{
 		
 		//Objekt anlegen
 				Fahrer d= new Fahrer();
-				d.setVorname("Peter");
-				d.setNachname("Lustig");
-				d.setSteuerNr("44444444");
+				d.setId(2);
+				d.setVorname("Juli");
+				d.setNachname("BesteMama");
+				d.setSteuerNr("4444555");
 		try{
 		//FahrerMapper intanzieren
 		FahrerMapper dm = FahrerMapper.fahrerMapper();
@@ -80,7 +78,7 @@ public static  void testUpdate() throws Exception{
 		
 		//Objekt anlegen
 				Fahrer d= new Fahrer();
-				d.setId(2);
+				d.setId(3);
 				d.setVorname("Peter");
 				d.setNachname("Lustig");
 				d.setSteuerNr("44444444");

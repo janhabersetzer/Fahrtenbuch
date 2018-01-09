@@ -47,5 +47,7 @@ public class Fahrer extends BusinessObject {
 		this.steuerNr = steuerNr;
 	}
 	
-	
+	public String toString() {
+	    return super.toString() + " " + this.vorname + " " + this.nachname+ " " + this.steuerNr;
+	  }
 }
