@@ -10,16 +10,6 @@ public class Fahrer extends BusinessObject {
 	private String nachname;
 	private String steuerNr;
 	
-	/*
-	 * No Argument Constructor 
-	 * Auch wenn dieser eigentlich nicht benötigt wird wurde er schonmal hingeschreiben, damit er später - im Falle das ein
-	 * Construktor mit Eingabe-Parametern angelegt wird nicht überdekt wird
-	 */
-	
-	public Fahrer(){
-		
-	}
-	
 	
 	//Getter und Setter
 	

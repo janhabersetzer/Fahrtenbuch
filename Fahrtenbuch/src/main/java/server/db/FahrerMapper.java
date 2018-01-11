@@ -1,11 +1,10 @@
 package server.db;
 
-import java.lang.reflect.Executable;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Vector;
 import shared.bo.Fahrer;
 
@@ -26,7 +25,7 @@ public class FahrerMapper {
 	
 	/**
 	 * methode des Sigleton Patterns
-	 * @return DAS <code>AccountMapper</code>-Objekt.
+	 * @return DAS <code>FahrerMapper</code>-Objekt.
 	 */
 	public static FahrerMapper fahrerMapper(){
 		if(fahrerMapper == null){
@@ -157,7 +156,7 @@ public class FahrerMapper {
 		return d;
 	}
 	
-	/*
+	/**
 	 * Verändern eines bereits in der DB vorhandenen Datensatzes
 	 * @param Fahrer-Objekt, das geändert werden soll
 	 * @return das übergebene und geänderte Fahrer-Objekt
@@ -185,7 +184,7 @@ public class FahrerMapper {
 		return d;
 	}
 	
-	/*
+	/**
 	 * Löschen des Fahrers aus der DB
 	 * ACHTUNG !!!!!!! Darf nur möglich sein, wenn der Fahrer nicht mehr von Fahrten oder Fahrzeugen referenziert wird
 	 * Diese Umsetzung steht noch aus!!!!!!!!
