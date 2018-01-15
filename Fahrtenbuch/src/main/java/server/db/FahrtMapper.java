@@ -267,7 +267,7 @@ public class FahrtMapper {
 	}
 	
 	/**
-	 * Verändern eines bereits in der DB vorhandenen Datensatzes
+	 * Verändern (Update) eines bereits in der DB vorhandenen Datensatzes
 	 * @param t Fahrt-Objekt, das geändert werden soll
 	 * @return das übergebene Fahrzeug-Objekt
 	 */
@@ -316,6 +316,11 @@ public class FahrtMapper {
 		return t;
 	}
 	
+	/**
+	 * Methode zum löschen einer Fahrt aus der Datenbank
+	 * @param t zu löschendes Fahrt-Objekt
+	 */
+	
 	public void delete(Fahrt t){
 		
 		Connection con = null;
@@ -337,24 +342,29 @@ public class FahrtMapper {
 		}	
 	}
 	
-public void deleteAlleFahrtenOfFahrzeug(Fahrzeug t){
-	Connection con = null;
-	PreparedStatement stmt = null;
+	/**
+	 * Methode zum Löschen aller Fahrten eines Fahrzeugs
+	 * @param t das Fahrzeugobjekt, dessen Fahrten gelöscht werden
+	 */
 	
-	
-	String deleteSQL = "DELETE FROM Fahrt WHERE Fahrzeug_idFahrzeug=?";
-	
-	try{
-		con = DBConnection.connection();
+	public void deleteAlleFahrtenOfFahrzeug(Fahrzeug v){
+		Connection con = null;
+		PreparedStatement stmt = null;
 		
-		stmt = con.prepareStatement(deleteSQL);
-		stmt.setInt(1, t.getId());
 		
-		stmt.executeUpdate();	
-	}
-	catch(SQLException e2){
-		e2.printStackTrace();
-	}
+		String deleteSQL = "DELETE FROM Fahrt WHERE Fahrzeug_idFahrzeug=?";
+		
+		try{
+			con = DBConnection.connection();
+			
+			stmt = con.prepareStatement(deleteSQL);
+			stmt.setInt(1, v.getId());
+			
+			stmt.executeUpdate();	
+		}
+		catch(SQLException e2){
+			e2.printStackTrace();
+		}
 	}
 	
 	
