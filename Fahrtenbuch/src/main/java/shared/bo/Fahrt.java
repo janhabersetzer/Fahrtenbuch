@@ -1,6 +1,6 @@
 package shared.bo;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Fahrt extends BusinessObject{
 	
@@ -20,11 +20,15 @@ public class Fahrt extends BusinessObject{
 	
 	private int betriebsfahrtKm;
 	
-	private Date datum;
+	private LocalDate fahrtDatum;
 	
 	private String kommentar;
 	
-	private Date bearbeitungsdatum;
+	private LocalDate bearbeitungsDatum;
+	
+	private int sourceFahrzeugId;
+	
+	private int sourceFahrerId;
 	
 	
 	
@@ -78,12 +82,12 @@ public class Fahrt extends BusinessObject{
 		this.betriebsfahrtKm = betriebsfahrtKm;
 	}
 
-	public Date getDatum() {
-		return this.datum;
+	public LocalDate getFahrtDatum() {
+		return this.fahrtDatum;
 	}
 
-	public void setDatum(Date datum) {
-		this.datum = datum;
+	public void setFahrtDatum(LocalDate fahrtdatum) {
+		this.fahrtDatum = fahrtdatum;
 	}
 
 	public String getKommentar() {
@@ -94,20 +98,38 @@ public class Fahrt extends BusinessObject{
 		this.kommentar = kommentar;
 	}
 
-	public Date getBearbeitungsdatum() {
-		return this.bearbeitungsdatum;
+	public LocalDate getBearbeitungsdatum() {
+		return this.bearbeitungsDatum;
 	}
 
-	public void setBearbeitungsdatum(Date bearbeitungsdatum) {
-		this.bearbeitungsdatum = bearbeitungsdatum;
+	public void setBearbeitungsdatum(LocalDate bearbeitungsDatum) {
+		this.bearbeitungsDatum = bearbeitungsDatum;
+	}
+
+	public int getSourceFahrzeugId() {
+		return sourceFahrzeugId;
+	}
+
+	public void setSourceFahrzeugId(int sourceFahrzeugId) {
+		this.sourceFahrzeugId = sourceFahrzeugId;
+	}
+
+	public int getSourceFahrerId() {
+		return this.sourceFahrerId;
+	}
+
+	public void setSourceFahrerId(int sourceFahrerId) {
+		this.sourceFahrerId = sourceFahrerId;
 	}
 
 	@Override
 	public String toString() {
 		return super.toString()+ "Fahrt [zielBeschreibung=" + this.zielBeschreibung + ", kmStart=" + this.kmStart + ", kmEnd=" + this.kmEnd
 				+ ", privatKm=" + this.privatKm + ", arbeitswegKm=" + this.arbeitswegKm + ", betriebsfahrtKm=" + this.betriebsfahrtKm
-				+ ", datum=" + this.datum + ", kommentar=" + this.kommentar + ", bearbeitungsdatum=" + this.bearbeitungsdatum + "]";
+				+ ", fahrtDatum=" + this.fahrtDatum + ", kommentar=" + this.kommentar + ", bearbeitungsdatum=" + this.bearbeitungsDatum + 
+				", Fahrzeug_idFahrzeug=" + this.sourceFahrzeugId + ", Fahrer_idFahrer=" + this.sourceFahrerId + "]";
 	}
+
 	
 	
 	

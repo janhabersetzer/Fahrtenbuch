@@ -10,8 +10,12 @@ public class Fahrzeug extends BusinessObject{
 	
 	private String modellBeschreibung;
 	
-	private String farbeString;
+	private String farbe;
 
+	
+//	Getter-/Setter
+	
+	
 	public String getKennzeichen() {
 		return kennzeichen;
 	}
@@ -36,18 +40,18 @@ public class Fahrzeug extends BusinessObject{
 		this.modellBeschreibung = modellBeschreibung;
 	}
 
-	public String getFarbeString() {
-		return this.farbeString;
+	public String getFarbe() {
+		return this.farbe;
 	}
 
-	public void setFarbeString(String farbeString) {
-		this.farbeString = farbeString;
+	public void setFarbe(String farbe) {
+		this.farbe = farbe;
 	}
 
 	@Override
 	public String toString() {
 		return super.toString()+ "Fahrzeug [kennzeichen=" + this.kennzeichen + ", km=" + this.km + ", modellBeschreibung=" + this.modellBeschreibung
-				+ ", farbeString=" + this.farbeString + "]";
+				+ ", farbe=" + this.farbe + "]";
 	}
 	
 	

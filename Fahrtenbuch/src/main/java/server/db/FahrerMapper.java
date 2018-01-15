@@ -107,12 +107,13 @@ public class FahrerMapper {
 		}
 		return result;
 	}
+	
+	
 	/**
 	 * Einfuegen eines Fahrer-Objekts als neuer Tupel in die Datenbank
 	 * @param d - einzufügendes Fahrer-Objekt
 	 * @return d - eingefügtes Fahrer-Objekt 
 	 */
-	
 	public Fahrer insert(Fahrer d){
 	
 		Connection con = null;
@@ -186,11 +187,13 @@ public class FahrerMapper {
 	
 	/**
 	 * Löschen des Fahrers aus der DB
+	 * @param Das zu löschende FahrerObjekt
 	 * ACHTUNG !!!!!!! Darf nur möglich sein, wenn der Fahrer nicht mehr von Fahrten oder Fahrzeugen referenziert wird
 	 * Diese Umsetzung steht noch aus!!!!!!!!
 	 */
 	
 	public void delete(Fahrer d){
+		
 		Connection con = null;
 		PreparedStatement stmt = null;
 		
