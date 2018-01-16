@@ -39,8 +39,7 @@ public class FahrtMapper {
 	
 	
 	/**
-	 * Mehtode zum suchen einer Fahrt in der DB.
-	 * WICHTIG: Das zurückgegebene Objekt enthält keine Fremdschlüssel
+	 * Methode zum suchen einer Fahrt in der DB
 	 * @param id
 	 * @return Fahrt-Objekt mit allen Attributen AUSSER Fremdschlüsseln
 	 */
